@@ -69,5 +69,6 @@ The first release.
   negotiation, the record format, replay lookup, the offset math, config
   parsing, and record and replay end to end.
 
+[1.0.2]: https://github.com/HeathHowren/openxr-pose-layer/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/HeathHowren/openxr-pose-layer/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/HeathHowren/openxr-pose-layer/releases/tag/v1.0.0
