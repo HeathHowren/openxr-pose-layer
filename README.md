@@ -18,14 +18,14 @@ That gives a VR developer a deterministic repro for a tracking bug, and a CI job
 a fixed input to render against.
 
 openxr-pose-layer is written by Heath Howren
-([Cyborg Elf](https://www.youtube.com/c/cyborgelf)) of
+([Cyborg Elf](https://www.youtube.com/cyborgelf)) of
 [Game Reversal Club](https://gamereversal.club). It watches what a VR app asks
 the runtime for and can feed it back, the way
 [Pointer Lab](https://gamereversal.club/tools/pointer-lab/) watches what a game
 reads and writes.
 
 ```
-poseplay 1.0.0
+poseplay 1.0.1
 file            sample.oxrr
 format version  1
 frames          120
@@ -103,8 +103,12 @@ shell. Record a session:
 ```powershell
 $env:XR_POSE_LAYER_MODE = "record"
 $env:XR_POSE_LAYER_FILE = "run.oxrr"
-# start your OpenXR app; the recording is written when the app exits
+# start your OpenXR app
 ```
+
+The layer writes the file only when the app shuts down OpenXR (calls
+`xrDestroyInstance`). If the app crashes, is killed, or exits without that call,
+nothing is saved. A failed write is not reported either.
 
 Replay it into the same or another app:
 
@@ -146,7 +150,7 @@ win over the file.
 frame index, the result, and how long the downstream call took:
 
 ```
-[pose-layer] 1.0.0 log mode
+[pose-layer] 1.0.1 log mode
 [pose-layer] +    0.187ms f0 xrWaitFrame -> XR_SUCCESS (0.1 us)
 [pose-layer] +    0.220ms xrLocateViews -> XR_SUCCESS (0.0 us)
 [pose-layer] +    0.231ms xrLocateSpace -> XR_SUCCESS (0.1 us)

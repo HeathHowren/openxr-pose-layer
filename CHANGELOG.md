@@ -3,6 +3,26 @@
 All notable changes to openxr-pose-layer are recorded here. This project follows
 [Semantic Versioning](https://semver.org/).
 
+## [1.0.1] - 2026-09-26
+
+### Fixed
+
+- **install.ps1 and uninstall.ps1 separate `XR_ENABLE_API_LAYERS` entries with
+  semicolons.** The OpenXR loader on Windows splits that variable on `;`. 1.0.0
+  joined it with `,`. When another layer was already enabled, the loader could
+  not find a layer by the joined name, and `xrCreateInstance` failed with
+  `XR_ERROR_API_LAYER_NOT_PRESENT`.
+- **Both scripts repair a value written by 1.0.0.** They read `;` and `,`, trim
+  spaces, drop empty entries, and write the list back with `;`. Run
+  `install.ps1` again to fix an existing install. A new ctest check covers the
+  list logic without touching the registry or the environment.
+
+### Changed
+
+- **The README says when a recording is saved.** The file is written only when
+  the app calls `xrDestroyInstance`. If the app crashes or is killed, nothing is
+  saved.
+
 ## [1.0.0] - 2026-09-26
 
 The first release.
