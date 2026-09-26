@@ -1,0 +1,10 @@
+{
+    "file_format_version": "1.0.0",
+    "api_layer": {
+        "name": "XR_APILAYER_GRC_pose_layer",
+        "library_path": "openxr_pose_layer.dll",
+        "api_version": "1.1",
+        "implementation_version": "@PROJECT_VERSION_MAJOR@",
+        "description": "Logs, records and replays OpenXR head and controller poses and input."
+    }
+}

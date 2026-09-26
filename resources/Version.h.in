@@ -1,0 +1,20 @@
+#ifndef POSELAYER_VERSION_H
+#define POSELAYER_VERSION_H
+
+/* Generated from resources/Version.h.in by CMake configure_file. Do not edit. */
+
+#define POSELAYER_VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+#define POSELAYER_VERSION_MINOR @PROJECT_VERSION_MINOR@
+#define POSELAYER_VERSION_PATCH @PROJECT_VERSION_PATCH@
+
+#define POSELAYER_VERSION_STRING "@PROJECT_VERSION@"
+#define POSELAYER_PRODUCT_NAME   "OpenXR Pose Layer"
+#define POSELAYER_COMPANY_NAME   "Game Reversal Club"
+#define POSELAYER_COPYRIGHT      "Copyright (c) 2026 Heath Howren. MIT License."
+#define POSELAYER_REPO_URL       "https://github.com/HeathHowren/openxr-pose-layer"
+#define POSELAYER_HOME_URL       "https://gamereversal.club/tools/openxr-pose-layer/"
+
+/* The Khronos-style layer name, XR_APILAYER_<VENDOR>_<name>. */
+#define POSELAYER_LAYER_NAME     "XR_APILAYER_GRC_pose_layer"
+
+#endif /* POSELAYER_VERSION_H */

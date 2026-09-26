@@ -1,0 +1,3 @@
+LIBRARY openxr_pose_layer
+EXPORTS
+    xrNegotiateLoaderApiLayerInterface
