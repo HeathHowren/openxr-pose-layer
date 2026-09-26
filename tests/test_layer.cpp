@@ -5,6 +5,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include <fstream>
+#include <iostream>
 #include <sstream>
 #include <string>
 
@@ -62,7 +63,41 @@ Recording flatRuntime(uint32_t frames) {
     return rec;
 }
 
+// Sends std::clog to a string for the life of the object.
+class CaptureClog {
+public:
+    CaptureClog() : old_(std::clog.rdbuf(text_.rdbuf())) {}
+    ~CaptureClog() { std::clog.rdbuf(old_); }
+    CaptureClog(const CaptureClog&) = delete;
+    CaptureClog& operator=(const CaptureClog&) = delete;
+    std::string str() const { return text_.str(); }
+
+private:
+    std::ostringstream text_;
+    std::streambuf* old_;
+};
+
 } // namespace
+
+TEST_CASE("record mode reports a recording it cannot write", "[layer]") {
+    fake().reset();
+    fake().script = makeSampleRecording(2);
+
+    // The folder does not exist, so the file cannot be opened.
+    const std::string path = tmp("no-such-folder/record.oxrr");
+    CaptureClog clog;
+    {
+        LayerHarness harness(fake(), recordConfig(path));
+        REQUIRE(harness.create());
+        harness.driveFrame(sampleOptions());
+        harness.driveFrame(sampleOptions());
+        harness.destroy();
+    }
+
+    const std::string text = clog.str();
+    CHECK(text.find("[pose-layer] failed to write recording to '" + path + "'") != std::string::npos);
+    CHECK(text.find("could not open output file") != std::string::npos);
+}
 
 TEST_CASE("record mode captures the runtime's poses frame by frame", "[layer]") {
     const uint32_t frames = 12;

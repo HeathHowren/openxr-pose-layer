@@ -3,6 +3,15 @@
 All notable changes to openxr-pose-layer are recorded here. This project follows
 [Semantic Versioning](https://semver.org/).
 
+## [1.0.2] - 2026-09-26
+
+### Fixed
+
+- **A recording that cannot be written is reported.** In record mode the error
+  went only to the log stream, which exists only in log mode, so it was never
+  shown. The layer now prints it to stderr and to the debugger output, with the
+  file path. A new test covers it.
+
 ## [1.0.1] - 2026-09-26
 
 ### Fixed

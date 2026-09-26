@@ -25,7 +25,7 @@ the runtime for and can feed it back, the way
 reads and writes.
 
 ```
-poseplay 1.0.1
+poseplay 1.0.2
 file            sample.oxrr
 format version  1
 frames          120
@@ -108,7 +108,8 @@ $env:XR_POSE_LAYER_FILE = "run.oxrr"
 
 The layer writes the file only when the app shuts down OpenXR (calls
 `xrDestroyInstance`). If the app crashes, is killed, or exits without that call,
-nothing is saved. A failed write is not reported either.
+nothing is saved. If the file cannot be written, the layer prints an error to
+stderr and to the debugger output.
 
 Replay it into the same or another app:
 
@@ -150,7 +151,7 @@ win over the file.
 frame index, the result, and how long the downstream call took:
 
 ```
-[pose-layer] 1.0.1 log mode
+[pose-layer] 1.0.2 log mode
 [pose-layer] +    0.187ms f0 xrWaitFrame -> XR_SUCCESS (0.1 us)
 [pose-layer] +    0.220ms xrLocateViews -> XR_SUCCESS (0.0 us)
 [pose-layer] +    0.231ms xrLocateSpace -> XR_SUCCESS (0.1 us)

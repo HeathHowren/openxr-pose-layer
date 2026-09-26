@@ -20,6 +20,16 @@
 #include <unordered_map>
 #include <vector>
 
+#ifdef _WIN32
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#endif
+
 namespace poselayer {
 
 namespace {
@@ -497,14 +507,27 @@ XRAPI_ATTR XrResult XRAPI_CALL hookEndFrame(XrSession session, const XrFrameEndI
     return r;
 }
 
+// An error the user needs to see. Log mode has its own stream. Every other mode
+// has none, so the message goes to stderr, and to the debugger output because a
+// VR app often has no console.
+void reportError(InstanceState& s, const std::string& message) {
+    const std::string line = "[pose-layer] " + message + "\n";
+    std::ostream& out = s.log ? *s.log : std::clog;
+    out << line;
+    out.flush();
+#ifdef _WIN32
+    OutputDebugStringA(line.c_str());
+#endif
+}
+
 XRAPI_ATTR XrResult XRAPI_CALL hookDestroyInstance(XrInstance instance) {
     std::unique_ptr<InstanceState> state = Registry::get().remove(instance);
     XrResult r = XR_SUCCESS;
     if (state) {
         if (state->config.mode == Mode::Record && !state->config.file.empty()) {
             LoadError err;
-            if (!state->recording.save(state->config.file, &err) && state->log) {
-                *state->log << "[pose-layer] failed to write recording: " << err.message << "\n";
+            if (!state->recording.save(state->config.file, &err)) {
+                reportError(*state, "failed to write recording to '" + state->config.file + "': " + err.message);
             }
         }
         if (state->down.destroyInstance) {

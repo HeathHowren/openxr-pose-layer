@@ -2,7 +2,7 @@
 # own tests and loader out of the default build.
 cmake_minimum_required(VERSION 3.28)
 
-project(openxr_pose_layer VERSION 1.0.1 LANGUAGES C CXX)
+project(openxr_pose_layer VERSION 1.0.2 LANGUAGES C CXX)
 
 if(NOT MSVC)
     message(FATAL_ERROR "openxr-pose-layer builds with MSVC only.")
