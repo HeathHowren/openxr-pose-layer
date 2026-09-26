@@ -38,3 +38,13 @@ target_link_libraries(poseplay_sample_gen PRIVATE poselayer_testkit poselayer_wa
 list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
 include(Catch)
 catch_discover_tests(poselayer_tests)
+
+# The XR_ENABLE_API_LAYERS helpers in install.ps1 and uninstall.ps1. The test
+# parses the scripts and loads only those helpers, so it never touches the
+# registry or the user's environment. Windows PowerShell 5.1, as on CI.
+add_test(
+    NAME install_scripts_layer_list
+    COMMAND powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass
+            -File ${CMAKE_CURRENT_SOURCE_DIR}/test_install_scripts.ps1
+            -SourceDir ${PROJECT_SOURCE_DIR}
+)

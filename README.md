@@ -92,6 +92,11 @@ needs no administrator rights:
 .\install.ps1
 ```
 
+The script also adds `XR_APILAYER_GRC_pose_layer` to your user's
+`XR_ENABLE_API_LAYERS`. The loader expects the names in that variable to be
+separated by semicolons, for example `OtherLayer;XR_APILAYER_GRC_pose_layer`.
+The 1.0.0 script used commas; run the new `install.ps1` once to fix the value.
+
 Pick a mode with environment variables, then start your OpenXR app from the same
 shell. Record a session:
 
